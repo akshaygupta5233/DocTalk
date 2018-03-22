@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DocTalk_Functional {
 
@@ -12,10 +14,11 @@ public class DocTalk_Functional {
 	public  final By Email= By.xpath("//*[@id='email']"); 
 	public  final By Password = By.xpath("//*[@id='password']");
 	public  final By SecretKey = By.xpath("//*[@id='doctorUid']"); 
+	public  final By Sign_In_Email = By.xpath("//*[@name='username']");
+	public  final By Sign_In_Password = By.xpath("//*[@name='password']");
 	public  final By Sign_Up = By.xpath("//*[@class='ant-btn ant-btn-primary']");
 	public  final By Sign_In = By.xpath("//*[@class='ant-btn ant-btn-primary']");
-	//public  final By Welcome_User = By.xpath("//*[contains(text(),'Welcome')]");
-	public  final By Welcome_User = By.xpath("//*[@id='root']/div/div[2]/div[2]/div[1]/div/h1");
+	public  final By Welcome_User =By.xpath("//*[@class='isoComponentTitle']");
 	String Username = "Akshay_Gupta2";
 	String Email_id = "akshaygupta524@gmail.com";
 	String pswrd = "qwerty123";
@@ -30,9 +33,11 @@ public class DocTalk_Functional {
 		driver = new ChromeDriver();
 		driver.get(URL);	
 		driver.manage().window().maximize();
-		Thread.sleep(1000);
+		Thread.sleep(5000);
 
 		driver.findElement(CreatNewAcc).click();
+		
+		Thread.sleep(3000);
 
 		driver.findElement(Name).sendKeys(Username);
 		driver.findElement(Email).sendKeys(Email_id);
@@ -43,36 +48,26 @@ public class DocTalk_Functional {
 		String Title_name = driver.getTitle();
 		System.out.println("Title of the page :" + Title_name);
 		
-		/*WebElement Welcome_Text = driver.findElement(Welcome_User);
-		Welcome_Text.getText();*/
-		//System.out.println("Printing "+TxtBoxContent);
-		
-		//String Welcome_Text = driver.findElement(Welcome_User).getText();
-		//System.out.println(".............." +Welcome_Text );
-
-		/*if(Welcome_Text.equals(Username))
-		{
-			System.out.println("User enters into the Welcome Screen");
-		}
-
-		else
-		{
-			System.out.println("User is not able to signIN");
-		}*/
-
 		Thread.sleep(2000);
 		driver.close();
 	}
 
 	public void signIn() throws Throwable
 	{
+		System.setProperty("webdriver.chrome.driver",path);	
+		driver = new ChromeDriver();
 		driver.get(URL);
 
-		driver.findElement(Email).sendKeys(Email_id);
-		driver.findElement(Password).sendKeys(pswrd);
+		driver.findElement(Sign_In_Email).sendKeys(Email_id);
+		driver.findElement(Sign_In_Password).sendKeys(pswrd);
 		driver.findElement(Sign_In).click();
-
-		Thread.sleep(2000);
+		
+		WebDriverWait wait = new WebDriverWait(driver,500000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(Welcome_User)); 
+		
+		System.out.println("Home Page is Displayed");
+		
+		Thread.sleep(5000);
 		driver.close();
 	}
 }
